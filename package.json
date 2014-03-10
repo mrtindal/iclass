@@ -1,0 +1,15 @@
+{
+    "author": {
+        "name": "Kolyaj",
+        "email": "kolyaj@yandex.ru",
+        "url": "https://github.com/Kolyaj"
+    },
+    "name": "iclass",
+    "description": "Simple inherit tool.",
+    "version": "0.0.1",
+    "homepage": "https://github.com/Kolyaj/iclass",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Kolyaj/iclass.git"
+    }
+}
