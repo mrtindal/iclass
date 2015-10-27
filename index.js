@@ -11,7 +11,7 @@ exports.create = function(parent, proto) {
     }
     require('util').inherits(proto.constructor, parent);
     mixin(proto.constructor.prototype, proto);
-    proto.constructor.superclass = parent;
+    proto.constructor.superclass = parent.prototype;
     return proto.constructor;
 };
 
