@@ -19,7 +19,7 @@ exports.Component = exports.create(require('events').EventEmitter, {
     constructor: function(cfg) {
         exports.Component.superclass.constructor.apply(this, arguments);
         mixin(this, cfg);
-        this._listeners = new Map();
+        this._listeners = [];
         this._initComponent();
     },
 
@@ -37,24 +37,26 @@ exports.Component = exports.create(require('events').EventEmitter, {
         var listener = function() {
             method.apply(ctx, arguments);
         };
-        this._listeners.set([object, event, method], listener);
+        this._listeners.push([object, event, method, listener]);
         object.on(event, listener);
     },
 
     _un: function(object, event, method) {
-        var key = [object, event, method];
-        var listener = this._listeners.get(key);
-        if (listener) {
-            this._listeners.delete(key);
-            object.removeListener(event, listener);
+        for (var i = 0; i < this._listeners.length; i++) {
+            var item = this._listeners[i];
+            if (item[0] == object && item[1] == event && item[2] == method) {
+                object.removeListener(event, item[3]);
+                this._listeners.splice(i, 1);
+                break;
+            }
         }
     },
 
     _unAll: function() {
-        this._listeners.entries().forEach(function(entry) {
-            entry[0][0].removeListener(entry[0][1], entry[1]);
+        this._listeners.forEach(function(item) {
+            item[0].removeListener(item[1], item[3]);
         });
-        this._listeners.clear();
+        this._listeners.length = 0;
     }
 });
 

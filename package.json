@@ -8,11 +8,15 @@
     "description": "Simple inherit tool.",
     "version": "0.0.2",
     "homepage": "https://github.com/Kolyaj/iclass",
-    "engines": {
-        "node": ">=0.12.15"
+    "scripts": {
+        "test": "mocha tests"
     },
     "repository": {
         "type": "git",
         "url": "git://github.com/Kolyaj/iclass.git"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "mocha": "^2.5.3"
     }
 }
