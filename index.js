@@ -19,11 +19,42 @@ exports.Component = exports.create(require('events').EventEmitter, {
     constructor: function(cfg) {
         exports.Component.superclass.constructor.apply(this, arguments);
         mixin(this, cfg);
+        this._listeners = new Map();
         this._initComponent();
     },
 
     _initComponent: function() {
 
+    },
+
+    destroy: function() {
+        this._unAll();
+    },
+
+
+    _on: function(object, event, method) {
+        var ctx = this;
+        var listener = function() {
+            method.apply(ctx, arguments);
+        };
+        this._listeners.set([object, event, method], listener);
+        object.on(event, listener);
+    },
+
+    _un: function(object, event, method) {
+        var key = [object, event, method];
+        var listener = this._listeners.get(key);
+        if (listener) {
+            this._listeners.delete(key);
+            object.removeListener(event, listener);
+        }
+    },
+
+    _unAll: function() {
+        this._listeners.entries().forEach(function(entry) {
+            entry[0][0].removeListener(entry[0][1], entry[1]);
+        });
+        this._listeners.clear();
     }
 });
 
